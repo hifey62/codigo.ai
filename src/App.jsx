@@ -18,7 +18,11 @@ import {
   Terminal,
   Settings,
   Command,
-  Home,
+  FilePlus,
+  FolderPlus,
+  MoreHorizontal,
+  Trash2,
+  Edit3,
 } from "lucide-react";
 
 // Mock file system data
@@ -66,87 +70,168 @@ const initialFileSystem = [
 ];
 
 // Mock file contents
+// const fileContents = {
+//   "escrow.rs": `use anchor_lang::prelude::*;
+
+// declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+
+// #[program]
+// pub mod escrow {
+//     use super::*;
+
+//     pub fn initialize(ctx: Context<Initialize>, amount: u64) -> Result<()> {
+//         let escrow_account = &mut ctx.accounts.escrow_account;
+//         escrow_account.initializer_key = *ctx.accounts.initializer.key;
+//         escrow_account.temp_token_account_key = *ctx.accounts.temp_token_account.key;
+//         escrow_account.initializer_deposit_token_account_key =
+//             *ctx.accounts.initializer_deposit_token_account.key;
+//         escrow_account.initializer_receive_token_account_key =
+//             *ctx.accounts.initializer_receive_token_account.key;
+//         escrow_account.expected_amount = amount;
+
+//         Ok(())
+//     }
+// }
+
+// #[derive(Accounts)]
+// pub struct Initialize<'info> {
+//     #[account(mut)]
+//     pub initializer: Signer<'info>,
+//     #[account(
+//         init,
+//         payer = initializer,
+//         space = 8 + EscrowAccount::LEN
+//     )]
+//     pub escrow_account: Account<'info, EscrowAccount>,
+//     pub system_program: Program<'info, System>,
+// }
+
+// #[account]
+// pub struct EscrowAccount {
+//     pub initializer_key: Pubkey,
+//     pub temp_token_account_key: Pubkey,
+//     pub initializer_deposit_token_account_key: Pubkey,
+//     pub initializer_receive_token_account_key: Pubkey,
+//     pub expected_amount: u64,
+// }
+
+// impl EscrowAccount {
+//     pub const LEN: usize = 32 + 32 + 32 + 32 + 8;
+// }`,
+//   "main.rs": `use std::io;
+
+// fn main() {
+//     println!("Welcome to Código - Solana Development Environment!");
+
+//     // Initialize the development environment
+//     init_solana_environment();
+// }
+
+// fn init_solana_environment() {
+//     println!("Initializing Solana development tools...");
+//     // Setup code here
+// }`,
+//   "Cargo.toml": `[package]
+// name = "codigo-solana-project"
+// version = "0.1.0"
+// edition = "2021"
+
+// [dependencies]
+// anchor-lang = "0.28.0"
+// anchor-spl = "0.28.0"
+// solana-program = "1.16.0"
+
+// [dev-dependencies]
+// tokio = { version = "1.0", features = ["full"] }
+// `,
+// };
 
 export default function CodigoIDE() {
   const [activeTab, setActiveTab] = useState("Welcome");
   const [tabs, setTabs] = useState(["Welcome"]);
-
-  const [fileSystem, setFileSystem] = useState(initialFileSystem);
   const [fileContents, setFileContents] = useState({
     "escrow.rs": `use anchor_lang::prelude::*;
 
-  declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
-  #[program]
-  pub mod escrow {
-      use super::*;
+#[program]
+pub mod escrow {
+    use super::*;
 
-      pub fn initialize(ctx: Context<Initialize>, amount: u64) -> Result<()> {
-          let escrow_account = &mut ctx.accounts.escrow_account;
-          escrow_account.initializer_key = *ctx.accounts.initializer.key;
-          escrow_account.temp_token_account_key = *ctx.accounts.temp_token_account.key;
-          escrow_account.initializer_deposit_token_account_key = 
-              *ctx.accounts.initializer_deposit_token_account.key;
-          escrow_account.initializer_receive_token_account_key = 
-              *ctx.accounts.initializer_receive_token_account.key;
-          escrow_account.expected_amount = amount;
-          
-          Ok(())
-      }
-  }
+    pub fn initialize(ctx: Context<Initialize>, amount: u64) -> Result<()> {
+        let escrow_account = &mut ctx.accounts.escrow_account;
+        escrow_account.initializer_key = *ctx.accounts.initializer.key;
+        escrow_account.temp_token_account_key = *ctx.accounts.temp_token_account.key;
+        escrow_account.initializer_deposit_token_account_key = 
+            *ctx.accounts.initializer_deposit_token_account.key;
+        escrow_account.initializer_receive_token_account_key = 
+            *ctx.accounts.initializer_receive_token_account.key;
+        escrow_account.expected_amount = amount;
+        
+        Ok(())
+    }
+}
 
-  #[derive(Accounts)]
-  pub struct Initialize<'info> {
-      #[account(mut)]
-      pub initializer: Signer<'info>,
-      #[account(
-          init,
-          payer = initializer,
-          space = 8 + EscrowAccount::LEN
-      )]
-      pub escrow_account: Account<'info, EscrowAccount>,
-      pub system_program: Program<'info, System>,
-  }
+#[derive(Accounts)]
+pub struct Initialize<'info> {
+    #[account(mut)]
+    pub initializer: Signer<'info>,
+    #[account(
+        init,
+        payer = initializer,
+        space = 8 + EscrowAccount::LEN
+    )]
+    pub escrow_account: Account<'info, EscrowAccount>,
+    pub system_program: Program<'info, System>,
+}
 
-  #[account]
-  pub struct EscrowAccount {
-      pub initializer_key: Pubkey,
-      pub temp_token_account_key: Pubkey,
-      pub initializer_deposit_token_account_key: Pubkey,
-      pub initializer_receive_token_account_key: Pubkey,
-      pub expected_amount: u64,
-  }
+#[account]
+pub struct EscrowAccount {
+    pub initializer_key: Pubkey,
+    pub temp_token_account_key: Pubkey,
+    pub initializer_deposit_token_account_key: Pubkey,
+    pub initializer_receive_token_account_key: Pubkey,
+    pub expected_amount: u64,
+}
 
-  impl EscrowAccount {
-      pub const LEN: usize = 32 + 32 + 32 + 32 + 8;
-  }`,
+impl EscrowAccount {
+    pub const LEN: usize = 32 + 32 + 32 + 32 + 8;
+}`,
     "main.rs": `use std::io;
 
-  fn main() {
-      println!("Welcome to Código - Solana Development Environment!");
-      
-      // Initialize the development environment
-      init_solana_environment();
-  }
+fn main() {
+    println!("Welcome to Código - Solana Development Environment!");
+    
+    // Initialize the development environment
+    init_solana_environment();
+}
 
-  fn init_solana_environment() {
-      println!("Initializing Solana development tools...");
-      // Setup code here
-  }`,
+fn init_solana_environment() {
+    println!("Initializing Solana development tools...");
+    // Setup code here
+}`,
     "Cargo.toml": `[package]
-  name = "codigo-solana-project"
-  version = "0.1.0"
-  edition = "2021"
+name = "codigo-solana-project"
+version = "0.1.0"
+edition = "2021"
 
-  [dependencies]
-  anchor-lang = "0.28.0"
-  anchor-spl = "0.28.0"
-  solana-program = "1.16.0"
+[dependencies]
+anchor-lang = "0.28.0"
+anchor-spl = "0.28.0"
+solana-program = "1.16.0"
 
-  [dev-dependencies]
-  tokio = { version = "1.0", features = ["full"] }`,
+[dev-dependencies]
+tokio = { version = "1.0", features = ["full"] }`,
   });
 
+  const getLanguageFromFilename = (filename) => {
+    if (filename.endsWith(".rs")) return "rust";
+    if (filename.endsWith(".toml")) return "toml";
+    if (filename.endsWith(".js")) return "javascript";
+    return "plaintext";
+  };
+
+  const [fileSystem, setFileSystem] = useState(initialFileSystem);
   const [selectedFile, setSelectedFile] = useState(null);
   const [chatOpen, setChatOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
@@ -158,6 +243,162 @@ export default function CodigoIDE() {
     },
   ]);
   const [chatInput, setChatInput] = useState("");
+
+  const [contextMenu, setContextMenu] = useState(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [createModalType, setCreateModalType] = useState("file");
+  const [createModalParent, setCreateModalParent] = useState(null);
+  const [createModalName, setCreateModalName] = useState("");
+  const [nextId, setNextId] = useState(20);
+
+  // const findItemById = (items, id) => {
+  //   for (const item of items) {
+  //     if (item.id === id) return item;
+  //     if (item.children) {
+  //       const found = findItemById(item.children, id);
+  //       if (found) return found;
+  //     }
+  //   }
+  //   return null;
+  // };
+
+  const addItemToParent = (items, parentId, newItem) => {
+    return items.map((item) => {
+      if (item.id === parentId) {
+        return {
+          ...item,
+          children: [...(item.children || []), newItem],
+          expanded: true,
+        };
+      }
+      if (item.children) {
+        return {
+          ...item,
+          children: addItemToParent(item.children, parentId, newItem),
+        };
+      }
+      return item;
+    });
+  };
+
+  const deleteItemById = (items, id) => {
+    return items
+      .filter((item) => item.id !== id)
+      .map((item) => ({
+        ...item,
+        children: item.children
+          ? deleteItemById(item.children, id)
+          : item.children,
+      }));
+  };
+
+  const openWelcomeTab = () => {
+    if (!tabs.includes("Welcome")) {
+      setTabs((prev) => [...prev, "Welcome"]);
+    }
+    setActiveTab("Welcome");
+  };
+  const renameItemById = (items, id, newName) => {
+    return items.map((item) => {
+      if (item.id === id) {
+        return { ...item, name: newName };
+      }
+      if (item.children) {
+        return {
+          ...item,
+          children: renameItemById(item.children, id, newName),
+        };
+      }
+      return item;
+    });
+  };
+
+  const createNewItem = (type, name, parentId = null) => {
+    const extension = name.includes(".") ? name.split(".").pop() : "";
+    const newItem = {
+      id: nextId.toString(),
+      name,
+      type,
+      ...(type === "file" && { extension }),
+      ...(type === "folder" && { expanded: false, children: [] }),
+    };
+
+    setNextId((prev) => prev + 1);
+
+    if (parentId) {
+      setFileSystem((prev) => addItemToParent(prev, parentId, newItem));
+    } else {
+      setFileSystem((prev) => [...prev, newItem]);
+    }
+
+    if (type === "file") {
+      fileContents[name] = `// New ${extension} file
+// Start coding here...`;
+    }
+
+    return newItem;
+  };
+
+  const handleContextMenu = (e, item) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      item,
+    });
+  };
+
+  const handleCreateNew = (type, parentItem = null) => {
+    setCreateModalType(type);
+    setCreateModalParent(parentItem);
+    setCreateModalName("");
+    setShowCreateModal(true);
+    setContextMenu(null);
+  };
+
+  const handleCreateSubmit = () => {
+    if (!createModalName.trim()) return;
+
+    const newItem = createNewItem(
+      createModalType,
+      createModalName.trim(),
+      createModalParent?.id
+    );
+
+    setShowCreateModal(false);
+    setCreateModalName("");
+
+    if (createModalType === "file") {
+      openFile(newItem);
+    }
+  };
+
+  const handleDelete = (item) => {
+    setFileSystem((prev) => deleteItemById(prev, item.id));
+
+    if (tabs.includes(item.name)) {
+      closeTab(item.name);
+    }
+
+    setContextMenu(null);
+  };
+
+  const handleRename = (item, newName) => {
+    const oldName = item.name;
+    setFileSystem((prev) => renameItemById(prev, item.id, newName));
+
+    if (tabs.includes(oldName)) {
+      setTabs((prev) => prev.map((tab) => (tab === oldName ? newName : tab)));
+      if (activeTab === oldName) {
+        setActiveTab(newName);
+      }
+      if (fileContents[oldName]) {
+        fileContents[newName] = fileContents[oldName];
+        delete fileContents[oldName];
+      }
+    }
+  };
 
   const toggleFolder = (id) => {
     const toggleInTree = (items) => {
@@ -198,12 +439,6 @@ export default function CodigoIDE() {
       }
     }
   };
-  const getLanguageFromFilename = (filename) => {
-    if (filename.endsWith(".rs")) return "rust";
-    if (filename.endsWith(".toml")) return "toml";
-    if (filename.endsWith(".js")) return "javascript";
-    return "plaintext";
-  };
 
   const sendMessage = () => {
     if (!chatInput.trim()) return;
@@ -212,7 +447,6 @@ export default function CodigoIDE() {
     setChatMessages((prev) => [...prev, newMessage]);
     setChatInput("");
 
-    // Simulate AI response
     setTimeout(() => {
       const aiResponse = {
         type: "ai",
@@ -222,12 +456,6 @@ export default function CodigoIDE() {
     }, 1000);
   };
 
-  const openWelcomeTab = () => {
-    if (!tabs.includes("Welcome")) {
-      setTabs((prev) => [...prev, "Welcome"]);
-    }
-    setActiveTab("Welcome");
-  };
   const getFileIcon = (file) => {
     if (file.type === "folder") {
       return file.expanded ? (
@@ -253,7 +481,7 @@ export default function CodigoIDE() {
     return items.map((item) => (
       <div key={item.id}>
         <div
-          className={`flex items-center py-1 px-2 hover:bg-gray-700 cursor-pointer text-sm ${
+          className={`flex items-center py-1 px-2 hover:bg-gray-700 cursor-pointer text-sm group relative ${
             selectedFile?.id === item.id
               ? "bg-gray-700 text-orange-400"
               : "text-gray-300"
@@ -262,6 +490,7 @@ export default function CodigoIDE() {
           onClick={() =>
             item.type === "folder" ? toggleFolder(item.id) : openFile(item)
           }
+          onContextMenu={(e) => handleContextMenu(e, item)}
         >
           {item.type === "folder" && (
             <span className="mr-1">
@@ -273,7 +502,28 @@ export default function CodigoIDE() {
             </span>
           )}
           <span className="mr-2">{getFileIcon(item)}</span>
-          <span>{item.name}</span>
+          <span className="flex-1">{item.name}</span>
+
+          {item.type === "folder" && (
+            <div className="opacity-0 group-hover:opacity-100 flex items-center space-x-1 ml-2">
+              <FilePlus
+                className="w-3 h-3 text-gray-400 hover:text-green-400 cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCreateNew("file", item);
+                }}
+                title="New File"
+              />
+              <FolderPlus
+                className="w-3 h-3 text-gray-400 hover:text-blue-400 cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCreateNew("folder", item);
+                }}
+                title="New Folder"
+              />
+            </div>
+          )}
         </div>
         {item.type === "folder" && item.expanded && item.children && (
           <div>{renderFileTree(item.children, depth + 1)}</div>
@@ -284,6 +534,114 @@ export default function CodigoIDE() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-gray-100 font-mono overflow-hidden">
+      {/* Context Menu */}
+      {contextMenu && (
+        <>
+          <div
+            className="fixed inset-0 z-40"
+            onClick={() => setContextMenu(null)}
+          />
+          <div
+            className="fixed z-50 bg-gray-800 border border-gray-600 rounded shadow-lg py-1 min-w-48"
+            style={{ left: contextMenu.x, top: contextMenu.y }}
+          >
+            {contextMenu.item.type === "folder" && (
+              <>
+                <div
+                  className="px-3 py-2 hover:bg-gray-700 cursor-pointer text-sm flex items-center"
+                  onClick={() => handleCreateNew("file", contextMenu.item)}
+                >
+                  <FilePlus className="w-4 h-4 mr-2 text-green-400" />
+                  New File
+                </div>
+                <div
+                  className="px-3 py-2 hover:bg-gray-700 cursor-pointer text-sm flex items-center"
+                  onClick={() => handleCreateNew("folder", contextMenu.item)}
+                >
+                  <FolderPlus className="w-4 h-4 mr-2 text-blue-400" />
+                  New Folder
+                </div>
+                <div className="border-t border-gray-600 my-1" />
+              </>
+            )}
+            <div
+              className="px-3 py-2 hover:bg-gray-700 cursor-pointer text-sm flex items-center"
+              onClick={() => {
+                const newName = prompt("Rename to:", contextMenu.item.name);
+                if (newName && newName !== contextMenu.item.name) {
+                  handleRename(contextMenu.item, newName);
+                }
+                setContextMenu(null);
+              }}
+            >
+              <Edit3 className="w-4 h-4 mr-2 text-yellow-400" />
+              Rename
+            </div>
+            <div
+              className="px-3 py-2 hover:bg-gray-700 cursor-pointer text-sm flex items-center text-red-400"
+              onClick={() => {
+                if (confirm(`Delete ${contextMenu.item.name}?`)) {
+                  handleDelete(contextMenu.item);
+                }
+              }}
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Delete
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Create Modal */}
+      {showCreateModal && (
+        <>
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setShowCreateModal(false)}
+          />
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 border border-gray-600 rounded-lg p-6 z-50 min-w-96">
+            <h3 className="text-lg font-medium mb-4 text-white">
+              Create New {createModalType === "file" ? "File" : "Folder"}
+              {createModalParent && (
+                <span className="text-gray-400">
+                  {" "}
+                  in {createModalParent.name}
+                </span>
+              )}
+            </h3>
+            <input
+              type="text"
+              value={createModalName}
+              onChange={(e) => setCreateModalName(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") handleCreateSubmit();
+                if (e.key === "Escape") setShowCreateModal(false);
+              }}
+              placeholder={
+                createModalType === "file" ? "filename.rs" : "folder-name"
+              }
+              className="w-full bg-gray-700 text-gray-200 px-3 py-2 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-400 mb-4"
+              autoFocus
+            />
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCreateSubmit}
+                disabled={!createModalName.trim()}
+                className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Create
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
       {/* Top Menu Bar */}
       <div className="flex items-center px-4 h-10 bg-gray-800 border-b border-gray-700 text-sm">
         {"File Edit Selection View Go Run Terminal Help"
@@ -319,7 +677,18 @@ export default function CodigoIDE() {
           <div className="p-3 border-b border-gray-700">
             <div className="flex items-center justify-between">
               <span className="font-bold text-gray-300 text-xs">EXPLORER</span>
-              <Plus className="w-4 h-4 text-gray-400 hover:text-orange-400 cursor-pointer" />
+              <div className="flex items-center space-x-1">
+                <FilePlus
+                  className="w-4 h-4 text-gray-400 hover:text-green-400 cursor-pointer"
+                  onClick={() => handleCreateNew("file")}
+                  title="New File"
+                />
+                <FolderPlus
+                  className="w-4 h-4 text-gray-400 hover:text-blue-400 cursor-pointer"
+                  onClick={() => handleCreateNew("folder")}
+                  title="New Folder"
+                />
+              </div>
             </div>
           </div>
 
@@ -533,6 +902,15 @@ export default function CodigoIDE() {
             )}
           </div>
 
+          {!tabs.includes("Welcome") && (
+            <button
+              onClick={openWelcomeTab}
+              className="mx-3 my-2 px-3 py-1 bg-orange-700 text-white text-xs rounded hover:bg-orange-600 transition"
+            >
+              ✨ Show Welcome Screen
+            </button>
+          )}
+
           {/* Terminal Panel */}
           {terminalOpen && (
             <div className="h-64 bg-black border-t border-gray-700 flex flex-col">
@@ -571,17 +949,6 @@ export default function CodigoIDE() {
           )}
         </div>
       </div>
-
-      {!tabs.includes("Welcome") && (
-        <button
-          onClick={openWelcomeTab}
-          className="mx-3 my-2 px-3 py-1 flex items-center space-x-1 bg-orange-700 text-white text-xs rounded hover:bg-orange-600 transition"
-        >
-          <Home className="w-4 h-4" />
-          <span>✨</span>
-          <span>Welcome</span>
-        </button>
-      )}
 
       {/* Bottom Status Bar */}
       <div className="flex items-center justify-between h-6 bg-blue-600 px-4 text-xs text-white">
