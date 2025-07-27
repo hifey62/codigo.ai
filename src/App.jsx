@@ -152,76 +152,76 @@ export default function CodigoIDE() {
   const [fileContents, setFileContents] = useState({
     "escrow.rs": `use anchor_lang::prelude::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+  declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
-#[program]
-pub mod escrow {
-    use super::*;
+  #[program]
+  pub mod escrow {
+      use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>, amount: u64) -> Result<()> {
-        let escrow_account = &mut ctx.accounts.escrow_account;
-        escrow_account.initializer_key = *ctx.accounts.initializer.key;
-        escrow_account.temp_token_account_key = *ctx.accounts.temp_token_account.key;
-        escrow_account.initializer_deposit_token_account_key = 
-            *ctx.accounts.initializer_deposit_token_account.key;
-        escrow_account.initializer_receive_token_account_key = 
-            *ctx.accounts.initializer_receive_token_account.key;
-        escrow_account.expected_amount = amount;
-        
-        Ok(())
-    }
-}
+      pub fn initialize(ctx: Context<Initialize>, amount: u64) -> Result<()> {
+          let escrow_account = &mut ctx.accounts.escrow_account;
+          escrow_account.initializer_key = *ctx.accounts.initializer.key;
+          escrow_account.temp_token_account_key = *ctx.accounts.temp_token_account.key;
+          escrow_account.initializer_deposit_token_account_key = 
+              *ctx.accounts.initializer_deposit_token_account.key;
+          escrow_account.initializer_receive_token_account_key = 
+              *ctx.accounts.initializer_receive_token_account.key;
+          escrow_account.expected_amount = amount;
+          
+          Ok(())
+      }
+  }
 
-#[derive(Accounts)]
-pub struct Initialize<'info> {
-    #[account(mut)]
-    pub initializer: Signer<'info>,
-    #[account(
-        init,
-        payer = initializer,
-        space = 8 + EscrowAccount::LEN
-    )]
-    pub escrow_account: Account<'info, EscrowAccount>,
-    pub system_program: Program<'info, System>,
-}
+  #[derive(Accounts)]
+  pub struct Initialize<'info> {
+      #[account(mut)]
+      pub initializer: Signer<'info>,
+      #[account(
+          init,
+          payer = initializer,
+          space = 8 + EscrowAccount::LEN
+      )]
+      pub escrow_account: Account<'info, EscrowAccount>,
+      pub system_program: Program<'info, System>,
+  }
 
-#[account]
-pub struct EscrowAccount {
-    pub initializer_key: Pubkey,
-    pub temp_token_account_key: Pubkey,
-    pub initializer_deposit_token_account_key: Pubkey,
-    pub initializer_receive_token_account_key: Pubkey,
-    pub expected_amount: u64,
-}
+  #[account]
+  pub struct EscrowAccount {
+      pub initializer_key: Pubkey,
+      pub temp_token_account_key: Pubkey,
+      pub initializer_deposit_token_account_key: Pubkey,
+      pub initializer_receive_token_account_key: Pubkey,
+      pub expected_amount: u64,
+  }
 
-impl EscrowAccount {
-    pub const LEN: usize = 32 + 32 + 32 + 32 + 8;
-}`,
+  impl EscrowAccount {
+      pub const LEN: usize = 32 + 32 + 32 + 32 + 8;
+  }`,
     "main.rs": `use std::io;
 
-fn main() {
-    println!("Welcome to Código - Solana Development Environment!");
-    
-    // Initialize the development environment
-    init_solana_environment();
-}
+  fn main() {
+      println!("Welcome to Código - Solana Development Environment!");
+      
+      // Initialize the development environment
+      init_solana_environment();
+  }
 
-fn init_solana_environment() {
-    println!("Initializing Solana development tools...");
-    // Setup code here
-}`,
+  fn init_solana_environment() {
+      println!("Initializing Solana development tools...");
+      // Setup code here
+  }`,
     "Cargo.toml": `[package]
-name = "codigo-solana-project"
-version = "0.1.0"
-edition = "2021"
+  name = "codigo-solana-project"
+  version = "0.1.0"
+  edition = "2021"
 
-[dependencies]
-anchor-lang = "0.28.0"
-anchor-spl = "0.28.0"
-solana-program = "1.16.0"
+  [dependencies]
+  anchor-lang = "0.28.0"
+  anchor-spl = "0.28.0"
+  solana-program = "1.16.0"
 
-[dev-dependencies]
-tokio = { version = "1.0", features = ["full"] }`,
+  [dev-dependencies]
+  tokio = { version = "1.0", features = ["full"] }`,
   });
 
   const getLanguageFromFilename = (filename) => {
@@ -333,7 +333,7 @@ tokio = { version = "1.0", features = ["full"] }`,
 
     if (type === "file") {
       fileContents[name] = `// New ${extension} file
-// Start coding here...`;
+  // Start coding here...`;
     }
 
     return newItem;
@@ -655,6 +655,23 @@ tokio = { version = "1.0", features = ["full"] }`,
             </div>
           ))}
         <div className="ml-auto flex items-center space-x-2">
+          <button
+            onClick={() => setChatOpen((prev) => !prev)}
+            title={chatOpen ? "Close AI Assistant" : "Open AI Assistant"}
+            className={`relative group p-2 rounded-full transition-all duration-200 ${
+              chatOpen
+                ? "bg-orange-500/20 text-orange-400"
+                : "hover:bg-gray-700 text-gray-400"
+            }`}
+          >
+            <MessageSquare className="w-5 h-5 transition-transform duration-200 group-hover:scale-110" />
+
+            {/* Tooltip */}
+            <span className="absolute -top-9 left-1/2 -translate-x-1/2 text-xs text-white bg-black bg-opacity-75 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+              {chatOpen ? "Close AI Assistant" : "Open AI Assistant"}
+            </span>
+          </button>
+
           <Command className="w-4 h-4 text-gray-400 hover:text-orange-400 cursor-pointer" />
           <Settings className="w-4 h-4 text-gray-400 hover:text-orange-400 cursor-pointer" />
         </div>
